@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <div class="container">
+    <h1><i class="fas fa-lock"></i> Password Analyzer</h1>
+    <p>Check strength and if your password has been exposed in data breaches.</p>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="off" />
+      <button onclick="analyze()">
+        <i class="fas fa-search"></i> Analyze
+      </button>
+      <span class="toggle-password" onclick="togglePassword()">
+        <i class="fas fa-eye"></i>
+      </span>
+    </div>
+
+    <div class="counter">Characters: <span id="charCount">0</span></div>
+
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <div class="strength-label" id="strengthLabel">Weak</div>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById("password");
+    const charCount = document.getElementById("charCount");
+    const progress = document.getElementById("progress");
+    const strengthLabel = document.getElementById("strengthLabel");
+
+    passwordInput.addEventListener("input", () => {
+      const len = passwordInput.value.length;
+      charCount.textContent = len;
+      updateProgress(len);
+    });
+
+    function updateProgress(len) {
+      const width = Math.min(len * 10, 100);
+      progress.style.width = width + "%";
+      if (width < 30) {
+        progress.style.backgroundColor = "#dc3545";
+        strengthLabel.textContent = "Weak";
+      } else if (width < 70) {
+        progress.style.backgroundColor = "#ffc107";
+        strengthLabel.textContent = "Medium";
+      } else {
+        progress.style.backgroundColor = "#28a745";
+        strengthLabel.textContent = "Strong";
+      }
+    }
+
+    function togglePassword() {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      document.querySelector(".toggle-password i").classList.toggle("fa-eye");
+      document.querySelector(".toggle-password i").classList.toggle("fa-eye-slash");
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+      const icon = document.querySelector(".theme-toggle i");
+      if (document.body.classList.contains("dark-mode")) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+      } else {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+      }
+    }
+
+    async function analyze() {
+      const password = passwordInput.value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (!password) {
+        resultDiv.innerHTML = "<p class='error'>⚠️ Please enter a password.</p>";
+        return;
+      }
+
+      resultDiv.innerHTML = "<p>Analyzing... <i class='fas fa-spinner fa-spin'></i></p>";
+
+      try {
+        const response = await fetch("/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        });
+
+        const data = await response.json();
+
+        let html = `<div class="results">`;
+        html += `<h3><i class="fas fa-check-circle"></i> Analysis Complete</h3>`;
+        html += `<p><strong>🔐 Strength:</strong> <span class="badge ${data.strength.toLowerCase()}">${data.strength}</span></p>`;
+        html += `<p><strong>🛡️ Breach:</strong> ${data.breach}</p>`;
+
+        if (data.feedback && data.feedback.length > 0) {
+          html += `<details><summary>💡 How to Improve</summary><ul>`;
+          data.feedback.forEach(f => html += `<li>${f}</li>`);
+          html += `</ul></details>`;
+        }
+        html += `</div>`;
+
+        resultDiv.innerHTML = html;
+      } catch (err) {
+        resultDiv.innerHTML = "<p class='error'>❌ API error. Please try again.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
+
