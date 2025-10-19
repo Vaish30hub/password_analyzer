@@ -56,7 +56,8 @@ This project does NOT store or send your full passwords. It uses SHA-1 hashing a
 
 Thank you for checking out this project! 
 
-"# password_analyzer" 
+
+
 
 
 
