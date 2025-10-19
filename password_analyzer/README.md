@@ -47,7 +47,7 @@ To run this project locally, follow the steps:
 
 ##  Demo Video
 
-[![Watch Demo](https://drive.google.com/drive/folders/1f-mbkEOLO1S1w8Bd9UjlHokACWhSzuS6)  
+[▶️ Watch Demo Video](https://drive.google.com/file/d/1AbC2dEfGhIjKlMnOpQr/view?usp=sharing)
 
 
 ##  Security and Privacy
@@ -55,6 +55,7 @@ To run this project locally, follow the steps:
 This project does NOT store or send your full passwords. It uses SHA-1 hashing and only sends the first 5 characters of the hash to check breaches, with a simulated fallback for privacy and demonstration purposes.
 
 Thank you for checking out this project! 
+
 
 
 
