@@ -45,12 +45,9 @@ To run this project locally, follow the steps:
 ![Analysis Result Example](screenshots/S3.png)
 
 
-
 ##  Demo Video
 
-[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)  
-
-Replace `YOUR_VIDEO_ID` with your YouTube video ID for the demo.
+[![Watch Demo](https://drive.google.com/drive/folders/1f-mbkEOLO1S1w8Bd9UjlHokACWhSzuS6)  
 
 
 ##  Security and Privacy
@@ -60,4 +57,5 @@ This project does NOT store or send your full passwords. It uses SHA-1 hashing a
 Thank you for checking out this project! 
 
 "# password_analyzer" 
+
 
