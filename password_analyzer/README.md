@@ -41,7 +41,8 @@ To run this project locally, follow the steps:
 ##  Screenshots
 
 ![Password Analyzer UI](screenshots/S1.png)  
-![Analysis Result Example](screenshots/S2.png)
+![Password Analyzer UI](screenshots/S2.png) 
+![Analysis Result Example](screenshots/S3.png)
 
 
 
@@ -59,3 +60,4 @@ This project does NOT store or send your full passwords. It uses SHA-1 hashing a
 Thank you for checking out this project! 
 
 "# password_analyzer" 
+
